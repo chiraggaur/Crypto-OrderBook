@@ -14,9 +14,6 @@ const BidsTable: React.FC<BidsTableProps> = ({ bids, selectedPair }) => {
             <th className="px-4 py-2 text-left">
               Amount ({selectedPair.base})
             </th>
-            <th className="px-4 py-2 text-left">
-              Total ({selectedPair.quote})
-            </th>
             <th className="px-4 py-2 text-left">Sum ({selectedPair.quote})</th>
           </tr>
         </thead>
@@ -30,9 +27,8 @@ const BidsTable: React.FC<BidsTableProps> = ({ bids, selectedPair }) => {
                 className="border-t border-gray-600 hover:bg-gray-700"
               >
                 <td className="px-4 py-2 text-green-400">Buy {index + 1}</td>
-                <td className="px-4 py-2">{price}</td>
+                <td className="px-4 py-2">{Number(price).toFixed(2)}</td>
                 <td className="px-4 py-2">{amount}</td>
-                <td className="px-4 py-2">{total.toFixed(2)}</td>
                 <td className="px-4 py-2">{total.toFixed(2)}</td>
               </tr>
             );
