@@ -47,7 +47,7 @@ const MarketDepthChart: React.FC<MarketDepthChartProps> = ({
         backgroundColor: "rgba(0, 255, 0, 0.2)",
         fill: true,
         borderWidth: 2,
-        stepped: "before",
+        stepped: "before" as const,
       },
       {
         label: "Asks",
@@ -56,7 +56,7 @@ const MarketDepthChart: React.FC<MarketDepthChartProps> = ({
         backgroundColor: "rgba(255, 0, 0, 0.2)",
         fill: true,
         borderWidth: 2,
-        stepped: "before",
+        stepped: "before" as const,
       },
       {
         label: "Mid Market Price",

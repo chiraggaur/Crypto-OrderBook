@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useMemo } from "react";
 import { Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, Title } from "chart.js";
@@ -63,6 +64,7 @@ const OrderbookImbalanceIndicator: React.FC<
         titleColor: "white",
         bodyColor: "white",
         callbacks: {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           label: (tooltipItem: any) => {
             return `${tooltipItem.label}: ${tooltipItem.raw.toFixed(2)}`;
           },

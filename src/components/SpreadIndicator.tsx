@@ -75,7 +75,7 @@ const SpreadIndicator: React.FC<SpreadIndicatorProps> = ({ orderBookData }) => {
         titleColor: "white",
         bodyColor: "white",
         callbacks: {
-          // Custom tooltip callback to display formatted data
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           label: (tooltipItem: any) => {
             const spread = tooltipItem.raw;
             const timestamp = labels[tooltipItem.dataIndex];
