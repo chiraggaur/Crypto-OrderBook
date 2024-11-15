@@ -35,12 +35,13 @@ const SpreadIndicator: React.FC<SpreadIndicatorProps> = ({ orderBookData }) => {
       const spread = bestAsk - bestBid;
       const now = new Date().toLocaleTimeString();
 
-      setSpreadData((prev) => [...prev.slice(-59), spread]);
+      setSpreadData((prev) => [...prev.slice(-59), spread]); // Keeping last 60 data points
       setLabels((prev) => [...prev.slice(-59), now]);
     }
   }, [orderBookData]);
 
-  const data = {
+  // Chart.js data structure
+  const chartData = {
     labels,
     datasets: [
       {
@@ -56,7 +57,8 @@ const SpreadIndicator: React.FC<SpreadIndicatorProps> = ({ orderBookData }) => {
     ],
   };
 
-  const options = {
+  // Chart.js configuration options
+  const chartOptions = {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
@@ -73,7 +75,7 @@ const SpreadIndicator: React.FC<SpreadIndicatorProps> = ({ orderBookData }) => {
         titleColor: "white",
         bodyColor: "white",
         callbacks: {
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          // Custom tooltip callback to display formatted data
           label: (tooltipItem: any) => {
             const spread = tooltipItem.raw;
             const timestamp = labels[tooltipItem.dataIndex];
@@ -108,7 +110,7 @@ const SpreadIndicator: React.FC<SpreadIndicatorProps> = ({ orderBookData }) => {
         Spread Indicator (Area Chart)
       </h3>
       <div className="relative h-72">
-        <Line data={data} options={options} />
+        <Line data={chartData} options={chartOptions} />
       </div>
     </div>
   );

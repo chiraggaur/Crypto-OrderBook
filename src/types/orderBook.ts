@@ -5,12 +5,18 @@ export interface OrderBookData {
   asks: Order[];
 }
 
-export interface AsksTableProps {
-  asks: Order[];
+export interface OrderBookProps {
+  selectedPair: string;
 }
 
 export interface BidsTableProps {
-  bids: Order[];
+  bids: [string, string][];
+  selectedPair: { base: string; quote: string };
+}
+
+export interface AsksTableProps {
+  asks: [string, string][];
+  selectedPair: { base: string; quote: string };
 }
 
 export interface ExtendedOrder {
@@ -19,14 +25,6 @@ export interface ExtendedOrder {
   amount: number;
   total: number;
   sum: number;
-}
-
-export interface AsksTableProps {
-  asks: Order[];
-}
-
-export interface BidsTableProps {
-  bids: Order[];
 }
 
 export interface OrderbookImbalanceIndicatorProps {

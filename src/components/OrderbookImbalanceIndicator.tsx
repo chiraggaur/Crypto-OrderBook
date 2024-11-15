@@ -1,10 +1,13 @@
-import { OrderbookImbalanceIndicatorProps } from "@/types/orderBook";
 import React, { useMemo } from "react";
+import { Doughnut } from "react-chartjs-2";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend, Title } from "chart.js";
+import { OrderbookImbalanceIndicatorProps } from "@/types/orderBook";
+
+ChartJS.register(ArcElement, Tooltip, Legend, Title);
 
 const OrderbookImbalanceIndicator: React.FC<
   OrderbookImbalanceIndicatorProps
 > = ({ orderBookData }) => {
-  // Memoize calculations to optimize performance
   const { totalBidVolume, totalAskVolume, imbalance } = useMemo(() => {
     if (
       !orderBookData ||
@@ -30,25 +33,55 @@ const OrderbookImbalanceIndicator: React.FC<
     return { totalBidVolume, totalAskVolume, imbalance };
   }, [orderBookData]);
 
-  // Early return if no valid data is present
   if (totalBidVolume === 0 && totalAskVolume === 0) {
     return null;
   }
 
-  // Defining the indicator bar color and width based on the imbalance value
-  const barColor = imbalance > 0 ? "bg-green-500" : "bg-red-500";
-  const barWidth = Math.min(Math.abs(imbalance), 100); // Limit width to 100%
+  const chartData = {
+    labels: ["Bid Volume", "Ask Volume"],
+    datasets: [
+      {
+        data: [totalBidVolume, totalAskVolume],
+        backgroundColor: ["#34D399", "#F87171"], // Green for Bid and Red for Ask
+        borderWidth: 0,
+        hoverOffset: 10,
+      },
+    ],
+  };
+
+  const chartOptions = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: "top",
+        labels: {
+          color: "white",
+        },
+      },
+      tooltip: {
+        backgroundColor: "rgba(0, 0, 0, 0.8)",
+        titleColor: "white",
+        bodyColor: "white",
+        callbacks: {
+          label: (tooltipItem: any) => {
+            return `${tooltipItem.label}: ${tooltipItem.raw.toFixed(2)}`;
+          },
+        },
+      },
+    },
+    cutout: "70%",
+    rotation: 0,
+    circumference: 360,
+  };
 
   return (
     <div className="p-6 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 rounded-lg shadow-lg mb-4 max-w-full">
       <h3 className="text-white text-lg mb-4 text-center font-semibold">
         Orderbook Imbalance Indicator
       </h3>
-      <div className="w-full bg-gray-700 rounded-lg overflow-hidden h-6">
-        <div
-          className={`h-full ${barColor} rounded-lg transition-all duration-300`}
-          style={{ width: `${barWidth}%` }}
-        ></div>
+      <div className="relative flex justify-center items-center h-72">
+        {/* Doughnut Chart */}
+        <Doughnut data={chartData} options={chartOptions} />
       </div>
       <p className="text-white mt-2 text-center font-medium">
         Imbalance: {imbalance.toFixed(2)}%
